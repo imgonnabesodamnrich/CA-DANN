@@ -32,7 +32,7 @@
             font-family: "Times New Roman", Times, serif;
             line-height: 1.5;
             color: #111;
-            max-width: 900px;
+            max-width: 850px;
             margin: 40px auto;
             padding: 0 30px;
             background-color: #fff;
@@ -45,7 +45,7 @@
             color: #444;
         }
         h1 {
-            font-size: 1.65rem;
+            font-size: 1.6rem;
             text-align: center;
             font-weight: bold;
             margin-bottom: 20px;
@@ -146,23 +146,40 @@
             text-indent: 0;
         }
 
-        /* 论文配图自适应容器 */
+        /* 统一精细调整后的图片样式 */
         .figure-box {
             text-align: center;
-            margin: 30px 0;
+            margin: 28px auto;
         }
-        .figure-box img, .figure-box canvas {
-            max-width: 95%;
-            height: auto;
+        .figure-box canvas, .figure-box img {
+            height: auto !important;
             display: block;
             margin: 0 auto 10px auto;
         }
+        /* 曲线图与折线对比图（适度缩小，更精致） */
+        .img-curve {
+            width: 460px !important;
+            max-width: 90%;
+        }
+        /* 架构图与流程图（适中，兼顾清晰度） */
+        .img-diagram {
+            width: 650px !important;
+            max-width: 95%;
+        }
+        /* 散点阵列与多子图 */
+        .img-matrix {
+            width: 580px !important;
+            max-width: 92%;
+        }
+
         .figure-caption {
-            font-size: 0.9rem;
+            font-size: 0.88rem;
             text-align: justify;
             line-height: 1.4;
             color: #222;
-            padding: 0 10px;
+            padding: 0 15px;
+            margin: 0 auto;
+            max-width: 750px;
         }
     </style>
 </head>
@@ -202,9 +219,9 @@
     <p>Data-driven methods bypass complex physical modeling, relying instead on historical monitoring data and employing machine learning algorithms to construct fault pattern recognition models for marine diesel engine fault diagnosis(Gharib and Kovács, 2023; Y Liu et al., 2023; Luo et al., 2025; Lv et al., 2024). Patil et al. input Fourier harmonic coefficients of in-cylinder pressure into linear and polynomial regression to estimate marine diesel engine fault severity(Patil et al., 2025). Costa et al. input marine diesel engine monitoring features (mainly left/right exhaust temperatures) into SVM, random-forest, KNN, and RUSBoosted-tree classifiers to classify fuel-injection-system faults(Costa et al., 2025). Zhao et al. input cylinder-head vibration signals (as wavelet time-frequency maps) into an axial-attention Transformer with a stepwise diffusion bridge for cross-domain fault diagnosis of marine diesel engines(Zhao et al., 2025). Sun et al. input exhaust gas temperature, air cooler outlet temperature, engine load, and turbocharger speed into a CNN-LSTM model with multi-layer attention to predict marine diesel engine exhaust temperature for fault warning(Sun et al., 2024). Xie et al. input 24 thermal parameters (reduced to 12; e.g., intercooler outlet velocity, peak combustion pressure, brake power, exhaust manifold outlet velocity) into a Bayesian-optimized random forest with Dempster–Shafer fusion to diagnose marine diesel engine faults(Xie et al., 2026).</p>
     <p>However, existing data-driven approaches for marine diesel engine fault diagnosis mainly focus on modeling and analyzing state signals, while neglecting the direct influence of control systems and maneuvering behaviors on the engine states. Consequently, these methods fail to exploit the diagnostic value potentially embedded in control signals. In fact, both the change in rotational speed caused by maneuvering operations and the flow channel blockage caused by injector clogging affect the injection mass flow rate. Furthermore, the trends of these two effects are sometimes quite similar, as shown in Fig. 1; both a decrease in rotational speed and an increase in clogging lead to a decrease in peak injection quantity and an extension of the injection tailing. This similarity makes traditional diagnostic models prone to confusion between these two types of factors across maneuvering-regime distributions, leading to misdiagnosis.</p>
 
-    <!-- Fig 1 -->
+    <!-- Fig 1 (调小为精致宽度) -->
     <div class="figure-box">
-        <canvas data-tiff="Fig1.tiff"></canvas>
+        <canvas data-tiff="Fig1.tiff" class="img-curve"></canvas>
         <div class="figure-caption">
             <strong>Fig. 1.</strong> Temporal variations of control signals and state signals under different maneuvering operations and injector clogging degrees. (a) Mass flow rate of a single injector at different input speeds without nozzle blockage. (b) Mass flow rate of a single injector under different degrees of nozzle blockage at an input speed of 100 rad/s.
         </div>
@@ -225,8 +242,8 @@
 
     <!-- Fig 2 (2a + 2bc) -->
     <div class="figure-box">
-        <canvas data-tiff="Fig2(a).tiff"></canvas>
-        <canvas data-tiff="Fig2(b)(c).tiff"></canvas>
+        <canvas data-tiff="Fig2(a).tiff" class="img-diagram"></canvas>
+        <canvas data-tiff="Fig2(b)(c).tiff" class="img-diagram"></canvas>
         <div class="figure-caption">
             <strong>Fig. 2.</strong> Hierarchically coupled thermodynamic simulation model of the marine diesel engine inline injection system and its internal schematic diagram. (a) Hierarchically coupled thermodynamic simulation model; (b) Camshaft subsystem local view; (c) Injector subsystem local view (\(i \in \{1, 2, 3, 4\}\)).
         </div>
@@ -241,7 +258,7 @@
 
     <!-- Fig 3 -->
     <div class="figure-box">
-        <canvas data-tiff="Fig3.tiff"></canvas>
+        <canvas data-tiff="Fig3.tiff" class="img-diagram"></canvas>
         <div class="figure-caption">
             <strong>Fig. 3.</strong> Framework of control-aware domain adversarial network.
         </div>
@@ -338,7 +355,7 @@
 
     <!-- Fig 4 -->
     <div class="figure-box">
-        <canvas data-tiff="Fig4.tiff"></canvas>
+        <canvas data-tiff="Fig4.tiff" class="img-diagram"></canvas>
         <div class="figure-caption">
             <strong>Fig. 4.</strong> Hyperparameters of the feature extractor under weighted fusion.
         </div>
@@ -390,7 +407,7 @@
 
     <!-- Fig 5 (PNG 格式) -->
     <div class="figure-box">
-        <img src="Fig5.png" alt="Fig. 5">
+        <img src="Fig5.png" alt="Fig. 5" class="img-matrix">
         <div class="figure-caption">
             <strong>Fig. 5.</strong> Two-dimensional t-SNE visualization of feature representations on the target domain under different models and control signals: (a) M1 model with 0 control signals; (b) M2 model with 0 control signals; (c) M3 model with 0 control signals (identical to the model in (a)); (d) M1 model with 1 type of control signal; (e) M2 model with 1 type of control signal; (f) M3 model with 1 type of control signal; (g) M1 model with 2 types of control signals; (h) M2 model with 2 types of control signals; (i) M3 model with 2 types of control signals; (j) M1 model with 3 types of control signals; (k) M2 model with 3 types of control signals; (l) M3 model with 3 types of control signals.
         </div>
@@ -417,9 +434,9 @@
 
     <p>To examine the influence of the domain-regularization weight &lambda;, we retrained the proposed method with &lambda; &isin; {0.1, 0.5, 1, 2, 5, 10}. The fault-diagnosis accuracy remains stable over &lambda; &isin; [0.1, 2]; the target-domain accuracy of the maneuvering-regime classifier is 0 % in all cases, indicating that the target features have been aligned to the source condition and that the operating conditions are no longer distinguishable. At &lambda; = 10, the accuracy drops to 96.28 &plusmn; 3.42 %, indicating that excessively strong adversarial training impairs diagnosis.</p>
 
-    <!-- Fig 6 -->
+    <!-- Fig 6 (调小为精致宽度) -->
     <div class="figure-box">
-        <canvas data-tiff="Fig6.tiff"></canvas>
+        <canvas data-tiff="Fig6.tiff" class="img-curve"></canvas>
         <div class="figure-caption">
             <strong>Fig. 6.</strong> Robustness to test-time signal degradation (10-seed mean ± standard deviation). (a) Target-domain fault-diagnosis accuracy of six methods under control-sensor dropout; (b) Target-domain accuracy of CA-DANN versus signal-to-noise ratio (SNR); (c) Target-domain accuracy of CA-DANN under a constant bias on the control signals.
         </div>
