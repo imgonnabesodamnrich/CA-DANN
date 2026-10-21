@@ -20,9 +20,12 @@
 
     <title>Fault diagnosis of marine diesel engine via control-aware domain-adversarial network: A control-diagnosis collaboration perspective</title>
 
-    <!-- 支持公式渲染 -->
+    <!-- 支持数学公式渲染 -->
     <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
     <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+
+    <!-- 解决浏览器无法原生显示 TIFF 图片的解码脚本 -->
+    <script src="https://cdn.jsdelivr.net/npm/utif@3.1.0/UTIF.min.js"></script>
 
     <style>
         body {
@@ -101,7 +104,7 @@
         h2 {
             font-size: 1.2rem;
             font-weight: bold;
-            margin-top: 30px;
+            margin-top: 35px;
             margin-bottom: 10px;
             border-bottom: 1px solid #eee;
             padding-bottom: 4px;
@@ -109,7 +112,7 @@
         h3 {
             font-size: 1.05rem;
             font-weight: bold;
-            margin-top: 20px;
+            margin-top: 25px;
             margin-bottom: 8px;
         }
         p {
@@ -141,6 +144,25 @@
             text-align: left;
             margin-bottom: 6px;
             text-indent: 0;
+        }
+
+        /* 论文配图自适应容器 */
+        .figure-box {
+            text-align: center;
+            margin: 30px 0;
+        }
+        .figure-box img, .figure-box canvas {
+            max-width: 95%;
+            height: auto;
+            display: block;
+            margin: 0 auto 10px auto;
+        }
+        .figure-caption {
+            font-size: 0.9rem;
+            text-align: justify;
+            line-height: 1.4;
+            color: #222;
+            padding: 0 10px;
         }
     </style>
 </head>
@@ -179,6 +201,15 @@
     <p>Fault diagnosis methods for marine diesel engines can be categorized into physics-based methods and data-driven methods(Minchev et al., 2021). Physics-based fault diagnosis methods use mathematical or physical models to characterize the operating behavior of marine diesel engine, simulating and predicting its performance under different conditions. Fault determination is made based on the deviation between measured and simulated data, offering strong physical interpretability(Gharib and Kovács, 2023; Y Liu et al., 2023; Luo et al., 2025; Lv et al., 2024; Simani et al., 2003). Tang et al. established a closed-loop shafting model of a diesel engine using lumped parameter modeling and PID speed control, and further proposed a diagnostic method that locates cylinder power imbalance faults by analyzing the zero-phase positions of differential instantaneous speed waveforms between faulty and normal conditions(Tang et al., 2025). Kougiatsos and Reppa feed heterogeneous pressure, temperature, and speed sensor measurements into a mean-value first-principle engine model whose nonlinear estimators generate residuals with adaptive thresholds to detect and isolate sensor faults in a marine internal combustion engine(Kougiatsos and Reppa, 2024). He et al. introduced a thermodynamic mechanism-based key performance indicator (KPI) method, in which the predicted engine load and speed are used as input signals to identify multiple types of faults (such as compressor surge, oil leakage, and pressure abnormalities) in marine diesel engine turbocharging systems(He et al., 2021). Liu et al. build a digital-twin model of a marine engine from common engine sensors and solve an inverse problem with NSGA-III to compensate fuel-injection and air-intake inputs, identifying nozzle-hole wear, fuel-supply malfunction, and valve-train wear(Liu et al., 2025). Although physics-based simulation approaches have demonstrated strong interpretability, their diagnostic performance remains highly dependent on model fidelity. In complex and variable marine operating environments, the inaccessibility or uncertainty of internal engine parameters often limits modeling accuracy, thereby constraining the achievable fault diagnosis precision.</p>
     <p>Data-driven methods bypass complex physical modeling, relying instead on historical monitoring data and employing machine learning algorithms to construct fault pattern recognition models for marine diesel engine fault diagnosis(Gharib and Kovács, 2023; Y Liu et al., 2023; Luo et al., 2025; Lv et al., 2024). Patil et al. input Fourier harmonic coefficients of in-cylinder pressure into linear and polynomial regression to estimate marine diesel engine fault severity(Patil et al., 2025). Costa et al. input marine diesel engine monitoring features (mainly left/right exhaust temperatures) into SVM, random-forest, KNN, and RUSBoosted-tree classifiers to classify fuel-injection-system faults(Costa et al., 2025). Zhao et al. input cylinder-head vibration signals (as wavelet time-frequency maps) into an axial-attention Transformer with a stepwise diffusion bridge for cross-domain fault diagnosis of marine diesel engines(Zhao et al., 2025). Sun et al. input exhaust gas temperature, air cooler outlet temperature, engine load, and turbocharger speed into a CNN-LSTM model with multi-layer attention to predict marine diesel engine exhaust temperature for fault warning(Sun et al., 2024). Xie et al. input 24 thermal parameters (reduced to 12; e.g., intercooler outlet velocity, peak combustion pressure, brake power, exhaust manifold outlet velocity) into a Bayesian-optimized random forest with Dempster–Shafer fusion to diagnose marine diesel engine faults(Xie et al., 2026).</p>
     <p>However, existing data-driven approaches for marine diesel engine fault diagnosis mainly focus on modeling and analyzing state signals, while neglecting the direct influence of control systems and maneuvering behaviors on the engine states. Consequently, these methods fail to exploit the diagnostic value potentially embedded in control signals. In fact, both the change in rotational speed caused by maneuvering operations and the flow channel blockage caused by injector clogging affect the injection mass flow rate. Furthermore, the trends of these two effects are sometimes quite similar, as shown in Fig. 1; both a decrease in rotational speed and an increase in clogging lead to a decrease in peak injection quantity and an extension of the injection tailing. This similarity makes traditional diagnostic models prone to confusion between these two types of factors across maneuvering-regime distributions, leading to misdiagnosis.</p>
+
+    <!-- Fig 1 -->
+    <div class="figure-box">
+        <canvas data-tiff="Fig1.tiff"></canvas>
+        <div class="figure-caption">
+            <strong>Fig. 1.</strong> Temporal variations of control signals and state signals under different maneuvering operations and injector clogging degrees. (a) Mass flow rate of a single injector at different input speeds without nozzle blockage. (b) Mass flow rate of a single injector under different degrees of nozzle blockage at an input speed of 100 rad/s.
+        </div>
+    </div>
+
     <p>Aiming at the above problems, this paper proposes a Control-Aware Domain Adversarial Network (CA-DANN) for fault diagnosis of the fuel injection system of high-speed marine diesel engines. The main contributions of this paper are as follows:</p>
     <p class="no-indent">1) An innovative control-signal weighted fusion mechanism is designed within the CA-DANN, where the features extracted from control signals are multiplied by those extracted from state signals through weighting parameters. These weights are not fixed parameters; rather, they are generated by the control branch from the control signals and compressed into (0,1) by a sigmoid function, in order to amplify or suppress each individual dimension of the state-signal features. To systematically evaluate the impact of incorporating control signals on fault diagnosis performance, four control-signal configurations are designed, corresponding to cases without control input, with one, two, and all three control signals considered.</p>
     <p class="no-indent">2) Based on the traditional DANN, the proposed CA-DANN establishes a fine-grained domain-adversarial framework. Within this framework, the maneuvering-regime discriminator replaces the conventional binary classification—which distinguishes only between the source and target domains—with a multi-class formulation. In this way, the Control-aware Feature Extractor is exposed to a more complex adversarial environment during training, enabling it to extract more generalized features that remain invariant to maneuvering-regime variations.</p>
@@ -192,12 +223,30 @@
     <p>The structure of the hierarchical coupled thermodynamic simulation model of the high-speed four-cylinder marine diesel engine with an inline injection system is shown in Fig. 2. It mainly consists of a camshaft, a lift pump, four in-line injection pumps, and four injectors. The camshaft receives the input rotational speed and transmits it to an eccentric cam that drives the lift pump and four parabolic profile cams that drive the injection pumps. The lift pump supplies fuel to the inlet of the injection pumps, which in turn supply fuel to the injectors. The injectors discharge the fuel into their respective engine cylinders. Each injection pump consists of a cam-driven plunger, a delivery valve, and a governor, which controls the amount of fuel the plunger delivers to the engine cylinder.</p>
     <p>The model also includes other components. The Pipe module simulates the pipe flow dynamics in an isothermal liquid network due to viscous friction losses. The Spring-Loaded Accumulator module simulates a spring-charged accumulator in an isothermal liquid network; liquid enters the accumulator and compresses the spring when the inlet hydraulic pressure is higher than the spring pre-load, and the spring releases the liquid when the hydraulic pressure decreases. The Pressure Relief Valve module simulates a relief valve in an isothermal liquid network, allowing liquid to flow only when a set pressure is reached. The Diesel Fuel Properties module defines the liquid property parameters at a constant temperature for the connected isothermal liquid network. The Solver Configuration defines the solver settings used for simulation calculation. The Reservoir module sets constant or controlled boundary conditions in the isothermal liquid network.</p>
 
+    <!-- Fig 2 (2a + 2bc) -->
+    <div class="figure-box">
+        <canvas data-tiff="Fig2(a).tiff"></canvas>
+        <canvas data-tiff="Fig2(b)(c).tiff"></canvas>
+        <div class="figure-caption">
+            <strong>Fig. 2.</strong> Hierarchically coupled thermodynamic simulation model of the marine diesel engine inline injection system and its internal schematic diagram. (a) Hierarchically coupled thermodynamic simulation model; (b) Camshaft subsystem local view; (c) Injector subsystem local view (\(i \in \{1, 2, 3, 4\}\)).
+        </div>
+    </div>
+
     <h3>2.3. Control-aware Domain Adversarial Network</h3>
     <p>The overall architecture of the proposed Control-Aware Domain Adversarial Network is illustrated in Fig. 3. It consists of three main modules: the Control-aware Feature Extractor, the Clogging Degree Classifier, and the Maneuvering Regime Classifier.</p>
     <p>According to the intrinsic physical logic of diesel engines, control signals represent the operational commands that actively regulate the system, whereas state signals describe the actual operating conditions of the engine, passively responding to control changes. Therefore, unlike conventional approaches that simply concatenate control and state signals for parallel input, the CA-DANN introduces an innovative control–state coupling mechanism. Specifically, a bifurcated Control-aware Feature Extractor is constructed, composed of a state-signal feature extraction branch and a control-signal feature extraction branch, each designed with distinct modeling pathways to capture their respective signal characteristics.</p>
     <p>The state-signal feature extraction branch takes the mass flow rates collected from four injectors as input, while the control-signal feature extraction branch receives the shaft angular velocity, cam velocity, and cam position measured from the camshaft. The extracted control-signal features are then multiplied with the state-signal features using weighting parameters generated by the control branch from the control signals and compressed into (0,1) via a sigmoid function, enabling the model to adaptively emphasize control-aware interactions.</p>
     <p>The Clogging Degree Classifier is designed to identify the clogging severity of injectors, where the thickness of the outer circle in Fig. 3 represents different clogging levels. The Maneuvering Regime Classifier distinguishes between different maneuvering regimes, with the arrow directions in the rectangular boxes indicating acceleration, deceleration, or steady-state regimes.</p>
     <p>Sample 1 (orange) and sample 2 (blue) in Fig. 3 represent signal samples collected under different maneuvering regimes and fault states. Although their state signals exhibit high temporal similarity, relying solely on state features can easily lead to misclassification. The incorporation of control signals enables the Control-aware Feature Extractor to capture the coupling relationship between control and state dynamics, effectively separating samples from different maneuvering regimes and fault states in the feature space, thereby significantly improving both maneuvering regime discrimination and fault identification accuracy.</p>
+
+    <!-- Fig 3 -->
+    <div class="figure-box">
+        <canvas data-tiff="Fig3.tiff"></canvas>
+        <div class="figure-caption">
+            <strong>Fig. 3.</strong> Framework of control-aware domain adversarial network.
+        </div>
+    </div>
+
     <p>Furthermore, to address the complexity arising from multi-regime distributions within both the source and target domains, the CA-DANN constructs a fine-grained domain adversarial framework. Unlike the conventional binary-classification DANN(Ganin et al., 2016), which distinguishes only between the source and target domains, the maneuvering-regime classifier in the fine-grained domain-adversarial framework performs K-class classification (here K = 7, comprising one constant-speed source condition A and six variable-speed target conditions B–G), enabling the model to maintain stable fault diagnosis performance under varying operating conditions.</p>
 
     <h3>2.3.1. Control-aware Feature Extractor</h3>
@@ -287,6 +336,14 @@
     <p>In real-world applications, models are often developed based on data from stable operating conditions but need to maintain robust performance under complex and variable working conditions. This paper divides the 12,500 samples from the constant speed condition (A) into the source domain data, and the 75,000 samples from the variable speed conditions (B, C, D, E, F, G) into the target domain data. A sliding window method is used to process the raw time-series data, with a window length set to 50, corresponding to a time span of 0.5 ms, and a step size set to 10, corresponding to a time span of 0.1 ms.</p>
     <p>Model training adopts a mini-batch gradient descent strategy, with the batch size set to 32. The Adam optimization algorithm, based on first-moment estimation and second-moment correction, is used during parameter updates to accelerate model convergence and suppress gradient oscillations. The initial learning rate is set to 0.001. Fig. 4 summarizes the hyperparameters of the feature extractor under the weighted fusion mechanism.</p>
 
+    <!-- Fig 4 -->
+    <div class="figure-box">
+        <canvas data-tiff="Fig4.tiff"></canvas>
+        <div class="figure-caption">
+            <strong>Fig. 4.</strong> Hyperparameters of the feature extractor under weighted fusion.
+        </div>
+    </div>
+
     <h3>3.3. Experimental Results</h3>
     <p>To systematically evaluate the performance of the proposed method, two sets of comparative experiments were designed: first, the weighted fusion mechanism is replaced with a concatenation-based fusion, in which the features extracted from the control-signal and state-signal branches are directly concatenated along the feature dimension, instead of being adaptively weighted, to examine the effect of the weighted fusion mechanism on diagnostic performance; second, removing the domain discriminator from the DANN framework to evaluate the contribution of the domain adversarial mechanism to extracting more generalizable features. Based on these ideas, three types of models were constructed, as shown in Table 2.</p>
 
@@ -331,6 +388,14 @@
     <p>Comparing the second column with the third column (Fig. 5(b), (e), (h), (k) vs. Fig. 5(c), (f), (i), (l)), when no control signal is introduced, the accuracy of M2 (95.96%) exceeds that of M3 (43.55%): adding the domain discriminator actually degrades classification performance, indicating that, in the absence of auxiliary information, the discriminator weakens the extraction of effective features. Once control signals are introduced, however, the model with the domain discriminator surpasses the one without it in both feature distribution and classification performance; for example, with three types of control signals, M3 reaches 99.82%, exceeding the 99.21% of the discriminator-free M2.</p>
     <p>Under the optimal configuration of three types of control signals with the weighted fusion mechanism (Fig. 5(l)), the fault categories are clearly separated in the feature space, each forming a compact cluster with large inter-class distances, and the overall accuracy reaches 99.82%. This reflects the advantage of jointly modeling control-awareness and domain adaptation under complex maneuvering regimes.</p>
 
+    <!-- Fig 5 (PNG 格式) -->
+    <div class="figure-box">
+        <img src="Fig5.png" alt="Fig. 5">
+        <div class="figure-caption">
+            <strong>Fig. 5.</strong> Two-dimensional t-SNE visualization of feature representations on the target domain under different models and control signals: (a) M1 model with 0 control signals; (b) M2 model with 0 control signals; (c) M3 model with 0 control signals (identical to the model in (a)); (d) M1 model with 1 type of control signal; (e) M2 model with 1 type of control signal; (f) M3 model with 1 type of control signal; (g) M1 model with 2 types of control signals; (h) M2 model with 2 types of control signals; (i) M3 model with 2 types of control signals; (j) M1 model with 3 types of control signals; (k) M2 model with 3 types of control signals; (l) M3 model with 3 types of control signals.
+        </div>
+    </div>
+
     <div class="table-caption">Table 4<br>Sensitivity to the domain-regularization weight &lambda;</div>
     <table>
         <thead>
@@ -351,6 +416,14 @@
     </table>
 
     <p>To examine the influence of the domain-regularization weight &lambda;, we retrained the proposed method with &lambda; &isin; {0.1, 0.5, 1, 2, 5, 10}. The fault-diagnosis accuracy remains stable over &lambda; &isin; [0.1, 2]; the target-domain accuracy of the maneuvering-regime classifier is 0 % in all cases, indicating that the target features have been aligned to the source condition and that the operating conditions are no longer distinguishable. At &lambda; = 10, the accuracy drops to 96.28 &plusmn; 3.42 %, indicating that excessively strong adversarial training impairs diagnosis.</p>
+
+    <!-- Fig 6 -->
+    <div class="figure-box">
+        <canvas data-tiff="Fig6.tiff"></canvas>
+        <div class="figure-caption">
+            <strong>Fig. 6.</strong> Robustness to test-time signal degradation (10-seed mean ± standard deviation). (a) Target-domain fault-diagnosis accuracy of six methods under control-sensor dropout; (b) Target-domain accuracy of CA-DANN versus signal-to-noise ratio (SNR); (c) Target-domain accuracy of CA-DANN under a constant bias on the control signals.
+        </div>
+    </div>
 
     <p>Under identical inputs and the same source-/target-domain partition, we compared two non-domain-adaptation methods (CNN-BiGRU(B Liu et al., 2023) and Attention-LSTM(Y Liu et al., 2023)) with three standard domain-adaptation methods (binary-classification DANN, Deep CORAL(Sun and Saenko, 2016), and the Domain Separation Network (DSN)(Bousmalis et al., 2016)). As shown in Fig. 6(a), when all three control signals are introduced, the methods achieve comparable accuracies (99.71 %–99.97 %), with CA-DANN reaching 99.84 &plusmn; 0.30 % (the specific model used for the ablation and visualization studies attains 99.82 %). For all models trained with the complete set of control and state signals, the control-signal sensors were removed during testing and the corresponding control-signal channels were set to zero, so as to emulate sensor loss or damage on a real vessel. When the cam-position sensor is missing, CA-DANN maintains 87.40 % accuracy, whereas the second-best model achieves only 72.57 %; when all control signals are missing, the proposed method still attains 81.84 %, significantly higher than the 68.75 % of the second-best model. Because the per-channel weights generated by the CA-DANN control branch are constrained to (0,1) by the sigmoid function, they vary only slightly when control signals are missing or noisy, so the state branch can still perform diagnosis; by contrast, models that feed the control signals directly as raw inputs propagate the missing or noisy values straight into the features, causing a sharp performance drop.</p>
     <p>To assess the noise tolerance of the proposed method, we conducted separate tests in which additive Gaussian noise was injected into either the control signals or the state signals, with the signal-to-noise ratio (SNR) ranging from &minus;6 to 10 dB; when noise was injected into the control signals, Gaussian noise of equal intensity was applied to all control signals. As shown in Fig. 6(b), injecting noise into the control signals has only a marginal effect, whereas injecting noise into the state signals causes a pronounced drop in accuracy, as the fault information itself becomes submerged in noise.</p>
@@ -377,5 +450,29 @@
     <h2>Data availability</h2>
     <p>This study uses confidential data that cannot be shared publicly.</p>
 
+    <!-- 自动渲染 TIFF 图片的自动化脚本 -->
+    <script>
+        window.addEventListener("DOMContentLoaded", function() {
+            var canvases = document.querySelectorAll("canvas[data-tiff]");
+            canvases.forEach(function(canvas) {
+                var url = canvas.getAttribute("data-tiff");
+                var xhr = new XMLHttpRequest();
+                xhr.open("GET", url);
+                xhr.responseType = "arraybuffer";
+                xhr.onload = function(e) {
+                    var ifds = UTIF.decode(xhr.response);
+                    UTIF.decodeImage(xhr.response, ifds[0]);
+                    var rgba = UTIF.toRGBA8(ifds[0]);
+                    canvas.width = ifds[0].width;
+                    canvas.height = ifds[0].height;
+                    var ctx = canvas.getContext("2d");
+                    var imgData = ctx.createImageData(ifds[0].width, ifds[0].height);
+                    imgData.data.set(rgba);
+                    ctx.putImageData(imgData, 0, 0);
+                };
+                xhr.send();
+            });
+        });
+    </script>
 </body>
 </html>
