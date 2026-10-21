@@ -1,10 +1,10 @@
 <!DOCTYPE html>
-<html lang="zh-CN">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <!-- Google Scholar 核心抓取标签 -->
+    <!-- Google Scholar 核心抓取标签（严格保留，不受语言切换影响） -->
     <meta name="citation_title" content="Fault diagnosis of marine diesel engine via control-aware domain-adversarial network: A control-diagnosis collaboration perspective">
     <meta name="citation_author" content="Lin, Zenan">
     <meta name="citation_author" content="Zhao, Minghang">
@@ -18,7 +18,7 @@
     <meta name="citation_doi" content="10.1177/01423312261487500">
     <meta name="citation_pdf_url" content="https://imgonnabesodamnrich.github.io/CA-DANN/paper.pdf">
 
-    <title>论文笔记：基于控制感知域对抗网络（CA-DANN）的船用柴油机故障诊断</title>
+    <title>CA-DANN: Marine Diesel Engine Fault Diagnosis</title>
 
     <!-- 数学公式与 TIFF 图片支持 -->
     <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
@@ -31,12 +31,35 @@
             line-height: 1.65;
             color: #24292e;
             max-width: 860px;
-            margin: 40px auto;
+            margin: 30px auto 60px auto;
             padding: 0 25px;
             background-color: #ffffff;
         }
+
+        /* 顶部导航栏与语言切换按钮 */
+        .top-nav {
+            display: flex;
+            justify-content: flex-end;
+            margin-bottom: 20px;
+        }
+        .lang-switch-btn {
+            background-color: #ffffff;
+            border: 1px solid #d0d7de;
+            border-radius: 6px;
+            padding: 5px 12px;
+            font-size: 0.85rem;
+            font-weight: 600;
+            cursor: pointer;
+            color: #0969da;
+            transition: all 0.2s;
+        }
+        .lang-switch-btn:hover {
+            background-color: #f3f4f6;
+            border-color: #8c959f;
+        }
+
         h1 {
-            font-size: 1.7rem;
+            font-size: 1.65rem;
             line-height: 1.35;
             color: #1a202c;
             border-bottom: 1px solid #d0d7de;
@@ -44,7 +67,7 @@
             margin-bottom: 18px;
         }
         h2 {
-            font-size: 1.3rem;
+            font-size: 1.25rem;
             color: #24292e;
             border-bottom: 1px solid #eaecef;
             padding-bottom: 6px;
@@ -52,7 +75,7 @@
             margin-bottom: 14px;
         }
         h3 {
-            font-size: 1.1rem;
+            font-size: 1.05rem;
             color: #24292e;
             margin-top: 22px;
             margin-bottom: 10px;
@@ -136,7 +159,7 @@
             width: 100%;
             border-collapse: collapse;
             margin: 18px 0;
-            font-size: 0.9rem;
+            font-size: 0.88rem;
         }
         th, td {
             border: 1px solid #d0d7de;
@@ -179,164 +202,317 @@
 </head>
 <body>
 
-    <h1>论文笔记：基于控制感知域对抗网络（CA-DANN）的船用柴油机故障诊断</h1>
-
-    <blockquote>
-        <p><strong>论文标题：</strong> Fault diagnosis of marine diesel engine via control-aware domain-adversarial network: A control-diagnosis collaboration perspective</p>
-        <p><strong>发表期刊：</strong> <em>Transactions of the Institute of Measurement and Control</em> (SAGE), 2026</p>
-        <p><strong>DOI：</strong> <a href="https://doi.org/10.1177/01423312261487500" target="_blank">10.1177/01423312261487500</a></p>
-    </blockquote>
-
-    <div class="meta-badges">
-        <span class="badge">DOI: 10.1177/01423312261487500</span>
-        <span class="badge">年份: 2026</span>
-        <span class="badge">领域: 故障诊断 / 迁移学习</span>
+    <!-- 顶部语言切换按钮 -->
+    <div class="top-nav">
+        <button class="lang-switch-btn" onclick="toggleLanguage()" id="langBtn">中文 / English</button>
     </div>
 
-    <div class="download-panel">
-        <span>原论文手稿（Author's Accepted Manuscript）：</span>
-        <a class="btn-download" href="paper.pdf" target="_blank">下载 PDF 全文</a>
-    </div>
+    <!-- ==================== 英文内容区域 (默认显示) ==================== -->
+    <div id="content-en">
+        <h1>Fault Diagnosis of Marine Diesel Engine via Control-Aware Domain-Adversarial Network</h1>
 
-    <div class="toc-container">
-        <strong>目录</strong>
+        <blockquote>
+            <p><strong>Paper Title:</strong> Fault diagnosis of marine diesel engine via control-aware domain-adversarial network: A control-diagnosis collaboration perspective</p>
+            <p><strong>Journal:</strong> <em>Transactions of the Institute of Measurement and Control</em> (SAGE), 2026</p>
+            <p><strong>DOI:</strong> <a href="https://doi.org/10.1177/01423312261487500" target="_blank">10.1177/01423312261487500</a></p>
+        </blockquote>
+
+        <div class="meta-badges">
+            <span class="badge">DOI: 10.1177/01423312261487500</span>
+            <span class="badge">Year: 2026</span>
+            <span class="badge">Field: Fault Diagnosis / Transfer Learning</span>
+        </div>
+
+        <div class="download-panel">
+            <span>Author's Accepted Manuscript (Full Text):</span>
+            <a class="btn-download" href="paper.pdf" target="_blank">Download PDF</a>
+        </div>
+
+        <div class="toc-container">
+            <strong>Table of Contents</strong>
+            <ul>
+                <li><a href="#en-sec1">1. Background and Mechanism Confounding Issue</a></li>
+                <li><a href="#en-sec2">2. Fuel Injection Simulation and Operating Regimes</a></li>
+                <li><a href="#en-sec3">3. CA-DANN Methodology</a>
+                    <ul>
+                        <li><a href="#en-sec3-1">3.1 Control-State Weighted Fusion Mechanism</a></li>
+                        <li><a href="#en-sec3-2">3.2 Fine-Grained Maneuvering-Regime Adversarial Adaptation</a></li>
+                    </ul>
+                </li>
+                <li><a href="#en-sec4">4. Experimental Results and Feature Distribution</a></li>
+                <li><a href="#en-sec5">5. Sensor Dropout and Robustness Evaluation</a></li>
+            </ul>
+        </div>
+
+        <h2 id="en-sec1">1. Background and Mechanism Confounding Issue</h2>
+        <p>The fuel injection system is a critical component for maintaining combustion performance and operational safety in marine diesel engines. Subjected to continuous mechanical stress and cyclic thermal loads, injectors frequently develop nozzle-hole clogging of varying severity. Conventional data-driven diagnostic approaches typically focus on steady-state responses while overlooking temporal dependencies within the control loop.</p>
+        <p>Under marine operating conditions, vessels undergo frequent maneuvering operations such as acceleration and deceleration. It has been observed that rotational speed variations caused by maneuvering actions induce dynamic response trends in the state signals (e.g., mass flow rate) that resemble those caused by injector clogging: both factors lead to a reduction in peak injection quantity and a prolongation of injection tailing. Conventional diagnostic models are consequently prone to confounding regular decelerations with injector degradations, resulting in false alarms.</p>
+
+        <div class="figure-box">
+            <canvas data-tiff="Fig1.tiff" class="img-curve"></canvas>
+            <div class="figure-caption">
+                <strong>Fig. 1.</strong> Temporal variations of control and state signals under different maneuvering operations and injector clogging degrees. (a) Mass flow rate of a single injector at different rotational speeds without nozzle clogging; (b) Mass flow rate under varying clogging degrees at a constant input speed of 100 rad/s.
+            </div>
+        </div>
+
+        <h2 id="en-sec2">2. Fuel Injection Simulation and Operating Regimes</h2>
+        <p>To overcome the scarcity of real-engine fault measurements, a hierarchically coupled thermodynamic simulation model of a high-speed four-cylinder inline injection system was established. The model accounts for the dynamic interactions among the camshaft, lift pump, individual injection pumps, high-pressure pipes, and fuel injectors.</p>
+
+        <div class="figure-box">
+            <canvas data-tiff="Fig2(a).tiff" class="img-diagram"></canvas>
+            <canvas data-tiff="Fig2(b)(c).tiff" class="img-diagram"></canvas>
+            <div class="figure-caption">
+                <strong>Fig. 2.</strong> Hierarchically coupled thermodynamic simulation model of the marine diesel engine inline injection system and its internal schematic diagram. (a) Coupled simulation model overview; (b) Camshaft subsystem; (c) Injector subsystem.
+            </div>
+        </div>
+
+        <p>The simulation database incorporates 7 maneuvering regimes (Condition A serving as the constant-speed source domain, and Conditions B–G representing variable-speed target domains) across 5 nozzle clogging levels (F0 baseline at 0.40 mm, and F1–F4 decreasing to 0.20 mm). The dataset comprises 87,500 samples acquired at a sampling frequency of 100 kHz.</p>
+
+        <table>
+            <thead>
+                <tr>
+                    <th>Maneuvering Operation (Condition)</th>
+                    <th>Acceleration Change Interval (s)</th>
+                    <th>Instantaneous Rotational Speed (rpm)</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr><td>A. Constant Speed (Source Domain)</td><td>\</td><td>955</td></tr>
+                <tr><td>B. Deceleration (Target Domain)</td><td>[0 &nbsp; 0.25]</td><td>[955 &rarr; 931]</td></tr>
+                <tr><td>C. Acceleration (Target Domain)</td><td>[0 &nbsp; 0.25]</td><td>[931 &rarr; 955]</td></tr>
+                <tr><td>D. Accel - Decel (Target Domain)</td><td>[0 &nbsp; 0.125 &nbsp; 0.25]</td><td>[941 &rarr; 955 &rarr; 941]</td></tr>
+                <tr><td>E. Decel - Accel (Target Domain)</td><td>[0 &nbsp; 0.125 &nbsp; 0.25]</td><td>[955 &rarr; 941 &rarr; 955]</td></tr>
+                <tr><td>F. Accel - Decel - Accel (Target Domain)</td><td>[0 &nbsp; 0.0833 &nbsp; 0.1667 &nbsp; 0.25]</td><td>[947 &rarr; 955 &rarr; 947 &rarr; 955]</td></tr>
+                <tr><td>G. Decel - Accel - Decel (Target Domain)</td><td>[0 &nbsp; 0.0833 &nbsp; 0.1667 &nbsp; 0.25]</td><td>[955 &rarr; 947 &rarr; 955 &rarr; 947]</td></tr>
+            </tbody>
+        </table>
+
+        <h2 id="en-sec3">3. CA-DANN Methodology</h2>
+        <p>To resolve the distribution shift induced by variable working conditions and to capture the asymmetric coupling between control actions and state measurements, the Control-Aware Domain Adversarial Network (CA-DANN) is proposed. The architecture consists of a dual-branch feature extractor, a clogging degree classifier, and a maneuvering-regime discriminator.</p>
+
+        <div class="figure-box">
+            <canvas data-tiff="Fig3.tiff" class="img-diagram"></canvas>
+            <div class="figure-caption">
+                <strong>Fig. 3.</strong> Overall structural architecture of the Control-Aware Domain Adversarial Network (CA-DANN).
+            </div>
+        </div>
+
+        <h3 id="en-sec3-1">3.1 Control-State Weighted Fusion Mechanism</h3>
+        <p>In physical engine systems, control inputs actively govern engine dynamics while state indicators respond passively. Rather than using direct vector concatenation, CA-DANN implements an asymmetric dual-branch processing pipeline:</p>
         <ul>
-            <li><a href="#sec1">1. 研究背景与机理混叠问题</a></li>
-            <li><a href="#sec2">2. 燃油喷射系统热力学建模与仿真工况</a></li>
-            <li><a href="#sec3">3. CA-DANN 方法设计</a>
-                <ul>
-                    <li><a href="#sec3-1">3.1 控制-状态特征加权融合机制</a></li>
-                    <li><a href="#sec3-2">3.2 细粒度机动工况对抗迁移</a></li>
-                </ul>
-            </li>
-            <li><a href="#sec4">4. 实验结果与特征分布分析</a></li>
-            <li><a href="#sec5">5. 信号缺失与抗噪鲁棒性验证</a></li>
+            <li><strong>Control Feature Branch:</strong> Collects shaft angular velocity, cam velocity, and cam position. A Multi-Head Attention (MHA) block extracts inter-cylinder synchrony, followed by a Squeeze-and-Excitation (SE) channel module and a Sigmoid activation, yielding a normalized dynamic weight vector \(z_{\text{control}} \in (0, 1)\).</li>
+            <li><strong>State Feature Branch:</strong> Ingests the instantaneous injection mass flow rates across the four cylinders. An LSTM network extracts the time-dependent injection dynamics, outputting the state vector \(z_{\text{state}}\).</li>
+            <li><strong>Multiplicative Fusion:</strong> The unified representation is formed via element-wise multiplication: \(z = z_{\text{control}} \odot z_{\text{state}}\). The control-derived weights adaptively calibrate individual channels of the state feature map.</li>
         </ul>
-    </div>
 
-    <h2 id="sec1">1. 研究背景与机理混叠问题</h2>
-    <p>燃油喷射系统是船用柴油机维持正常燃烧做功的关键组成部分。由于长期承受机械冲击和交变热负荷，喷油器易发生不同程度的孔隙堵塞。基于振动或热工参数的数据驱动诊断方法多针对稳态工况，未能有效利用控制回路中的时序信息。</p>
-    <p>在实际航行中，船舶频繁处于加减速等机动操作状态。研究发现，机动操作引起的转速变化与喷油嘴堵塞故障在状态响应特征上具有相似的动态趋势：二者均会引起瞬时喷油质量流量峰值的削减以及尾部喷油周期的拉长。常规数据驱动方法因未能区分驱动源，易将正常减速过程判别为喷油器物理损伤，造成误报。</p>
+        <div class="figure-box">
+            <canvas data-tiff="Fig4.tiff" class="img-diagram"></canvas>
+            <div class="figure-caption">
+                <strong>Fig. 4.</strong> Layer dimensions and hyperparameter configurations of the weighted fusion feature extractor.
+            </div>
+        </div>
 
-    <div class="figure-box">
-        <canvas data-tiff="Fig1.tiff" class="img-curve"></canvas>
-        <div class="figure-caption">
-            <strong>图 1.</strong> 不同机动操作与喷油嘴堵塞程度下的控制与状态信号时域响应对比。(a) 无喷油嘴堵塞、不同输入转速下单喷油嘴喷油质量流量；(b) 100 rad/s 固定输入转速、不同堵塞程度下单喷油嘴喷油质量流量。
+        <h3 id="en-sec3-2">3.2 Fine-Grained Maneuvering-Regime Adversarial Adaptation</h3>
+        <p>Standard DANN employs a binary classifier to distinguish between source and target domains. To address multi-phase transient distributions across varying target regimes, CA-DANN formulates the discriminator as a \(K=7\) class maneuvering-regime classifier connected through a Gradient Reversal Layer (GRL). The overall optimization objective is defined as:</p>
+        <p style="text-align: center; text-indent: 0;">
+            \[\mathcal{L}_{\text{total}} = \mathcal{L}_{\text{clog}} + \lambda \cdot \mathcal{L}_{\text{regime}}\]
+        </p>
+        <p>where \(\lambda\) is the domain regularization hyperparameter (set to 1.0). The minimax adversarial training forces the feature extractor to map samples into a subspace invariant to operational speed fluctuations.</p>
+
+        <h2 id="en-sec4">4. Experimental Results and Feature Distribution</h2>
+        <p>Models were trained on the constant-speed regime (Condition A) and tested across unlabelled variable-speed regimes (Conditions B–G). Performance was evaluated across a concatenation baseline (M1), an ablation model without adversarial training (M2), and the proposed CA-DANN (M3) under different numbers of control signal inputs:</p>
+
+        <table>
+            <thead>
+                <tr>
+                    <th>Model Structure</th>
+                    <th>Fusion Strategy</th>
+                    <th>Domain Discriminator</th>
+                    <th>0 Control Signals</th>
+                    <th>1 Control Signal</th>
+                    <th>2 Control Signals</th>
+                    <th>3 Control Signals</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr><td>M1</td><td>Concatenation</td><td>Included</td><td>43.55%</td><td>90.20%</td><td>94.17%</td><td>94.97%</td></tr>
+                <tr><td>M2</td><td>Weighted Fusion</td><td>Excluded</td><td>95.96%</td><td>97.95%</td><td>98.41%</td><td>99.21%</td></tr>
+                <tr><td>M3 (CA-DANN)</td><td>Weighted Fusion</td><td>Included</td><td>43.55%</td><td>98.77%</td><td>99.61%</td><td>99.82%</td></tr>
+            </tbody>
+        </table>
+
+        <div class="figure-box">
+            <img src="Fig5.png" alt="Fig. 5" class="img-matrix">
+            <div class="figure-caption">
+                <strong>Fig. 5.</strong> Two-dimensional t-SNE visualizations of target-domain feature distributions across different model variants and input configurations.
+            </div>
+        </div>
+
+        <p>Experimental observations indicate that adversarial training without auxiliary control signals degrades diagnostic accuracy due to unconstrained feature regularization. However, upon introducing control information, the fine-grained discriminator coupled with the weighted fusion mechanism forms distinctly separated clusters with high intra-class compactness, as shown in Fig. 5(l), reaching a classification accuracy of 99.82%.</p>
+
+        <h2 id="en-sec5">5. Sensor Dropout and Robustness Evaluation</h2>
+        <p>To verify operational reliability under onboard instrument failure modes, the trained network was evaluated against control sensor dropout, additive Gaussian noise, and actuator bias drift.</p>
+
+        <div class="figure-box">
+            <canvas data-tiff="Fig6.tiff" class="img-curve"></canvas>
+            <div class="figure-caption">
+                <strong>Fig. 6.</strong> Robustness evaluation under test-time signal degradation modes. (a) Diagnostic accuracy under control sensor channel dropout; (b) Accuracy versus Signal-to-Noise Ratio (SNR) for state and control signals; (c) Degradation profiles under constant bias injection.
+            </div>
+        </div>
+
+        <div class="note-box">
+            <strong>Failure Tolerance Mechanism:</strong> In conventional models relying on input concatenation, sensor loss (zero-padding) injects numerical distortion directly into subsequent fully-connected layers, triggering severe diagnostic degradation. In CA-DANN, the control branch outputs are bounded within (0, 1) by the Sigmoid function. Incomplete control inputs cause bounded weight variations, allowing the state branch to sustain core feature representation. Under complete control sensor dropout, the architecture retains an accuracy of 81.84%.
         </div>
     </div>
 
-    <h2 id="sec2">2. 燃油喷射系统热力学建模与仿真工况</h2>
-    <p>为克服实船故障数据获取受限的问题，论文建立了高速四冲程直列四缸船用柴油机喷油系统的分层耦合热力学仿真模型。该模型包含凸轮轴、输油泵、直列喷油泵、高压油管及喷油器等物理组件。</p>
+    <!-- ==================== 中文内容区域 (默认隐藏) ==================== -->
+    <div id="content-zh" style="display: none;">
+        <h1>论文笔记：基于控制感知域对抗网络（CA-DANN）的船用柴油机故障诊断</h1>
 
-    <div class="figure-box">
-        <canvas data-tiff="Fig2(a).tiff" class="img-diagram"></canvas>
-        <canvas data-tiff="Fig2(b)(c).tiff" class="img-diagram"></canvas>
-        <div class="figure-caption">
-            <strong>图 2.</strong> 船用柴油机直列喷油系统的分层耦合热力学仿真模型结构及测点定义。(a) 分层耦合仿真模型总图；(b) 凸轮轴子系统结构；(c) 喷油器子系统结构。
+        <blockquote>
+            <p><strong>论文标题：</strong> Fault diagnosis of marine diesel engine via control-aware domain-adversarial network: A control-diagnosis collaboration perspective</p>
+            <p><strong>发表期刊：</strong> <em>Transactions of the Institute of Measurement and Control</em> (SAGE), 2026</p>
+            <p><strong>DOI：</strong> <a href="https://doi.org/10.1177/01423312261487500" target="_blank">10.1177/01423312261487500</a></p>
+        </blockquote>
+
+        <div class="meta-badges">
+            <span class="badge">DOI: 10.1177/01423312261487500</span>
+            <span class="badge">年份: 2026</span>
+            <span class="badge">领域: 故障诊断 / 迁移学习</span>
+        </div>
+
+        <div class="download-panel">
+            <span>原论文手稿（Author's Accepted Manuscript）：</span>
+            <a class="btn-download" href="paper.pdf" target="_blank">下载 PDF 全文</a>
+        </div>
+
+        <div class="toc-container">
+            <strong>目录</strong>
+            <ul>
+                <li><a href="#zh-sec1">1. 研究背景与机理混叠问题</a></li>
+                <li><a href="#zh-sec2">2. 燃油喷射系统热力学建模与仿真工况</a></li>
+                <li><a href="#zh-sec3">3. CA-DANN 方法设计</a>
+                    <ul>
+                        <li><a href="#zh-sec3-1">3.1 控制-状态特征加权融合机制</a></li>
+                        <li><a href="#zh-sec3-2">3.2 细粒度机动工况对抗迁移</a></li>
+                    </ul>
+                </li>
+                <li><a href="#zh-sec4">4. 实验结果与特征分布分析</a></li>
+                <li><a href="#zh-sec5">5. 信号缺失与抗噪鲁棒性验证</a></li>
+            </ul>
+        </div>
+
+        <h2 id="zh-sec1">1. 研究背景与机理混叠问题</h2>
+        <p>燃油喷射系统是船用柴油机维持正常燃烧做功的关键组成部分。由于长期承受机械冲击和交变热负荷，喷油器易发生不同程度的孔隙堵塞。基于振动或热工参数的数据驱动诊断方法多针对稳态工况，未能有效利用控制回路中的时序信息。</p>
+        <p>在实际航行中，船舶频繁处于加减速等机动操作状态。研究发现，机动操作引起的转速变化与喷油嘴堵塞故障在状态响应特征上具有相似的动态趋势：二者均会引起瞬时喷油质量流量峰值的削减以及尾部喷油周期的拉长。常规数据驱动方法因未能区分驱动源，易将正常减速过程判别为喷油器物理损伤，造成误报。</p>
+
+        <h2 id="zh-sec2">2. 燃油喷射系统热力学建模与仿真工况</h2>
+        <p>为克服实船故障数据获取受限的问题，论文建立了高速四冲程直列四缸船用柴油机喷油系统的分层耦合热力学仿真模型。该模型包含凸轮轴、输油泵、直列喷油泵、高压油管及喷油器等物理组件。</p>
+        <p>仿真数据集涵盖 7 种机动运行工况（工况 A 为恒速源域，工况 B~G 为含变速过程的目标域）以及 5 种喷嘴孔隙堵塞等级（F0 对应未堵塞基准 0.40 mm，F1~F4 依次递减至 0.20 mm），采样频率为 100 kHz，共提取 87,500 组时序样本。</p>
+
+        <table>
+            <thead>
+                <tr>
+                    <th>机动工况类别</th>
+                    <th>加速度改变时刻 (s)</th>
+                    <th>各阶段瞬时转速 (rpm)</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr><td>A. 恒速基准 (源域)</td><td>\</td><td>955</td></tr>
+                <tr><td>B. 减速过程 (目标域)</td><td>[0 &nbsp; 0.25]</td><td>[955 &rarr; 931]</td></tr>
+                <tr><td>C. 加速过程 (目标域)</td><td>[0 &nbsp; 0.25]</td><td>[931 &rarr; 955]</td></tr>
+                <tr><td>D. 先加速后减速 (目标域)</td><td>[0 &nbsp; 0.125 &nbsp; 0.25]</td><td>[941 &rarr; 955 &rarr; 941]</td></tr>
+                <tr><td>E. 先减速后加速 (目标域)</td><td>[0 &nbsp; 0.125 &nbsp; 0.25]</td><td>[955 &rarr; 941 &rarr; 955]</td></tr>
+                <tr><td>F. 加速-减速-加速 (目标域)</td><td>[0 &nbsp; 0.0833 &nbsp; 0.1667 &nbsp; 0.25]</td><td>[947 &rarr; 955 &rarr; 947 &rarr; 955]</td></tr>
+                <tr><td>G. 减速-加速-减速 (目标域)</td><td>[0 &nbsp; 0.0833 &nbsp; 0.1667 &nbsp; 0.25]</td><td>[955 &rarr; 947 &rarr; 955 &rarr; 947]</td></tr>
+            </tbody>
+        </table>
+
+        <h2 id="zh-sec3">3. CA-DANN 方法设计</h2>
+        <p>为解决变工况分布偏移及控制-状态耦合表征问题，论文提出了控制感知域对抗网络（Control-Aware Domain Adversarial Network, CA-DANN），由双分支特征提取器、故障堵塞分类器及机动工况判别器构成。</p>
+
+        <h3 id="zh-sec3-1">3.1 控制-状态特征加权融合机制</h3>
+        <p>柴油机物理系统中控制输入主导状态输出。常规特征拼接未能体现因果层级，CA-DANN 采用双分支并行处理结构：</p>
+        <ul>
+            <li><strong>控制特征分支：</strong> 采集轴系角速度、凸轮速度与位移等控制信号，利用多头自注意力机制（MHA）提取多缸交互特征，经通道注意力（SE-Net）和残差结构处理后，通过 Sigmoid 函数映射为区间 (0, 1) 的权值向量 \(z_{\text{control}}\)。</li>
+            <li><strong>状态特征分支：</strong> 采集各缸喷油质量流量，利用长短期记忆网络（LSTM）提取时序演化特征 \(z_{\text{state}}\)。</li>
+            <li><strong>加权交互计算：</strong> 最终特征由两分支逐元素相乘得到：\(z = z_{\text{control}} \odot z_{\text{state}}\)。该结构利用控制信号生成的动态权值，对状态特征各通道进行选择性调制。</li>
+        </ul>
+
+        <h3 id="zh-sec3-2">3.2 细粒度机动工况对抗迁移</h3>
+        <p>标准 DANN 采用二分类判别器区分源域与目标域。针对目标域内部多阶段变速工况的复杂分布，CA-DANN 将判别器扩展为 \(K=7\) 分类的机动工况分类器，并通过梯度反转层（GRL）与特征提取器进行对抗训练。总损失函数定义为：</p>
+        <p style="text-align: center; text-indent: 0;">
+            \[\mathcal{L}_{\text{total}} = \mathcal{L}_{\text{clog}} + \lambda \cdot \mathcal{L}_{\text{regime}}\]
+        </p>
+        <p>式中 \(\lambda\) 为域正则化系数（试验设定为 1）。该机制引导特征提取器滤除工况变化带来的干扰分量，保留与转速解耦的故障特征。</p>
+
+        <h2 id="zh-sec4">4. 实验结果与特征分布分析</h2>
+        <p>实验以恒速数据（A）为源域，以六种变速机动数据（B~G）为目标域。对比了特征拼接模型（M1）、无域对抗结构模型（M2）以及 CA-DANN（M3）在不同控制信号通道输入下的分类准确率：</p>
+
+        <table>
+            <thead>
+                <tr>
+                    <th>模型配置</th>
+                    <th>特征融合方式</th>
+                    <th>域判别器</th>
+                    <th>无控制信号</th>
+                    <th>1 类控制信号</th>
+                    <th>2 类控制信号</th>
+                    <th>3 类控制信号</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr><td>M1</td><td>直接拼接</td><td>包含</td><td>43.55%</td><td>90.20%</td><td>94.17%</td><td>94.97%</td></tr>
+                <tr><td>M2</td><td>加权融合</td><td>未包含</td><td>95.96%</td><td>97.95%</td><td>98.41%</td><td>99.21%</td></tr>
+                <tr><td>M3 (CA-DANN)</td><td>加权融合</td><td>包含</td><td>43.55%</td><td>98.77%</td><td>99.61%</td><td>99.82%</td></tr>
+            </tbody>
+        </table>
+
+        <p>实验分析显示，在缺少控制输入时，强行施加对抗会导致分类器有效特征弱化。而在引入控制通道后，细粒度对抗判别器与加权融合结构共同作用，使目标域样本在特征空间内按故障类别形成边界清晰的独立簇群，如图 5(l) 所示，平均诊断精度达到 99.82%。</p>
+
+        <h2 id="zh-sec5">5. 信号缺失与抗噪鲁棒性验证</h2>
+        <p>为验证实际传感设备发生故障时的容错能力，论文对训练完成的模型开展了传感器脱落、高斯白噪声干扰及零点漂移试验。</p>
+
+        <div class="note-box">
+            <strong>容错机制分析：</strong> 直接拼接输入的方法在传感器失效（数值归零）时，异常零值直接参与全连接层运算，引起输出层大幅波动；CA-DANN 中控制分支输出经 Sigmoid 函数约束于 (0, 1) 范围，输入失效时权重仅发生有限平移，状态分支仍可保持主体特征提取能力。在凸轮轴控制信号完全丢失的测试中，该结构仍保留 81.84% 的诊断准确率。
         </div>
     </div>
 
-    <p>仿真数据集涵盖 7 种机动运行工况（工况 A 为恒速源域，工况 B~G 为含变速过程的目标域）以及 5 种喷嘴孔隙堵塞等级（F0 对应未堵塞基准 0.40 mm，F1~F4 依次递减至 0.20 mm），采样频率为 100 kHz，共提取 87,500 组时序样本。</p>
-
-    <table>
-        <thead>
-            <tr>
-                <th>机动工况类别</th>
-                <th>加速度改变时刻 (s)</th>
-                <th>各阶段瞬时转速 (rpm)</th>
-            </tr>
-        </thead>
-        <tbody>
-            <tr><td>A. 恒速基准 (源域)</td><td>\</td><td>955</td></tr>
-            <tr><td>B. 减速过程 (目标域)</td><td>[0 &nbsp; 0.25]</td><td>[955 &rarr; 931]</td></tr>
-            <tr><td>C. 加速过程 (目标域)</td><td>[0 &nbsp; 0.25]</td><td>[931 &rarr; 955]</td></tr>
-            <tr><td>D. 先加速后减速 (目标域)</td><td>[0 &nbsp; 0.125 &nbsp; 0.25]</td><td>[941 &rarr; 955 &rarr; 941]</td></tr>
-            <tr><td>E. 先减速后加速 (目标域)</td><td>[0 &nbsp; 0.125 &nbsp; 0.25]</td><td>[955 &rarr; 941 &rarr; 955]</td></tr>
-            <tr><td>F. 加速-减速-加速 (目标域)</td><td>[0 &nbsp; 0.0833 &nbsp; 0.1667 &nbsp; 0.25]</td><td>[947 &rarr; 955 &rarr; 947 &rarr; 955]</td></tr>
-            <tr><td>G. 减速-加速-减速 (目标域)</td><td>[0 &nbsp; 0.0833 &nbsp; 0.1667 &nbsp; 0.25]</td><td>[955 &rarr; 947 &rarr; 955 &rarr; 947]</td></tr>
-        </tbody>
-    </table>
-
-    <h2 id="sec3">3. CA-DANN 方法设计</h2>
-    <p>为解决变工况分布偏移及控制-状态耦合表征问题，论文提出了控制感知域对抗网络（Control-Aware Domain Adversarial Network, CA-DANN），由双分支特征提取器、故障堵塞分类器及机动工况判别器构成。</p>
-
-    <div class="figure-box">
-        <canvas data-tiff="Fig3.tiff" class="img-diagram"></canvas>
-        <div class="figure-caption">
-            <strong>图 3.</strong> 控制感知域对抗网络（CA-DANN）整体拓扑结构。
-        </div>
-    </div>
-
-    <h3 id="sec3-1">3.1 控制-状态特征加权融合机制</h3>
-    <p>柴油机物理系统中控制输入主导状态输出。常规特征拼接未能体现因果层级，CA-DANN 采用双分支并行处理结构：</p>
-    <ul>
-        <li><strong>控制特征分支：</strong> 采集轴系角速度、凸轮速度与位移等控制信号，利用多头自注意力机制（MHA）提取多缸交互特征，经通道注意力（SE-Net）和残差结构处理后，通过 Sigmoid 函数映射为区间 (0, 1) 的权值向量 \(z_{\text{control}}\)。</li>
-        <li><strong>状态特征分支：</strong> 采集各缸喷油质量流量，利用长短期记忆网络（LSTM）提取时序演化特征 \(z_{\text{state}}\)。</li>
-        <li><strong>加权交互计算：</strong> 最终特征由两分支逐元素相乘得到：\(z = z_{\text{control}} \odot z_{\text{state}}\)。该结构利用控制信号生成的动态权值，对状态特征各通道进行选择性调制。</li>
-    </ul>
-
-    <div class="figure-box">
-        <canvas data-tiff="Fig4.tiff" class="img-diagram"></canvas>
-        <div class="figure-caption">
-            <strong>图 4.</strong> 双分支特征提取器的维度与参数设置。
-        </div>
-    </div>
-
-    <h3 id="sec3-2">3.2 细粒度机动工况对抗迁移</h3>
-    <p>标准 DANN 采用二分类判别器区分源域与目标域。针对目标域内部多阶段变速工况的复杂分布，CA-DANN 将判别器扩展为 \(K=7\) 分类的机动工况分类器，并通过梯度反转层（GRL）与特征提取器进行对抗训练。总损失函数定义为：</p>
-    <p style="text-align: center; text-indent: 0;">
-        \[\mathcal{L}_{\text{total}} = \mathcal{L}_{\text{clog}} + \lambda \cdot \mathcal{L}_{\text{regime}}\]
-    </p>
-    <p>式中 \(\lambda\) 为域正则化系数（试验设定为 1）。该机制引导特征提取器滤除工况变化带来的干扰分量，保留与转速解耦的故障特征。</p>
-
-    <h2 id="sec4">4. 实验结果与特征分布分析</h2>
-    <p>实验以恒速数据（A）为源域，以六种变速机动数据（B~G）为目标域。对比了特征拼接模型（M1）、无域对抗结构模型（M2）以及 CA-DANN（M3）在不同控制信号通道输入下的分类准确率：</p>
-
-    <table>
-        <thead>
-            <tr>
-                <th>模型配置</th>
-                <th>特征融合方式</th>
-                <th>域判别器</th>
-                <th>无控制信号</th>
-                <th>1 类控制信号</th>
-                <th>2 类控制信号</th>
-                <th>3 类控制信号</th>
-            </tr>
-        </thead>
-        <tbody>
-            <tr><td>M1</td><td>直接拼接</td><td>包含</td><td>43.55%</td><td>90.20%</td><td>94.17%</td><td>94.97%</td></tr>
-            <tr><td>M2</td><td>加权融合</td><td>未包含</td><td>95.96%</td><td>97.95%</td><td>98.41%</td><td>99.21%</td></tr>
-            <tr><td>M3 (CA-DANN)</td><td>加权融合</td><td>包含</td><td>43.55%</td><td>98.77%</td><td>99.61%</td><td>99.82%</td></tr>
-        </tbody>
-    </table>
-
-    <div class="figure-box">
-        <img src="Fig5.png" alt="Fig. 5" class="img-matrix">
-        <div class="figure-caption">
-            <strong>图 5.</strong> 目标域分类器末层特征的二维 t-SNE 降维分布对比。
-        </div>
-    </div>
-
-    <p>实验分析显示，在缺少控制输入时，强行施加对抗会导致分类器有效特征弱化。而在引入控制通道后，细粒度对抗判别器与加权融合结构共同作用，使目标域样本在特征空间内按故障类别形成边界清晰的独立簇群，如图 5(l) 所示，平均诊断精度达到 99.82%。</p>
-
-    <h2 id="sec5">5. 信号缺失与抗噪鲁棒性验证</h2>
-    <p>为验证实际传感设备发生故障时的容错能力，论文对训练完成的模型开展了传感器脱落、高斯白噪声干扰及零点漂移试验。</p>
-
-    <div class="figure-box">
-        <canvas data-tiff="Fig6.tiff" class="img-curve"></canvas>
-        <div class="figure-caption">
-            <strong>图 6.</strong> 测试阶段不同信号衰减模式下的模型鲁棒性表现。(a) 控制传感器通道缺失时的诊断准确率对比；(b) 状态信号与控制信号信噪比（SNR）敏感度曲线；(c) 控制信号系统性偏差（Bias）下的精度衰减。
-        </div>
-    </div>
-
-    <div class="note-box">
-        <strong>容错机制分析：</strong> 直接拼接输入的方法在传感器失效（数值归零）时，异常零值直接参与全连接层运算，引起输出层大幅波动；CA-DANN 中控制分支输出经 Sigmoid 函数约束于 (0, 1) 范围，输入失效时权重仅发生有限平移，状态分支仍可保持主体特征提取能力。在凸轮轴控制信号完全丢失的测试中，该结构仍保留 81.84% 的诊断准确率。
-    </div>
-
-    <!-- 渲染 TIFF 图像逻辑 -->
+    <!-- 语言切换与 TIFF 渲染脚本 -->
     <script>
+        // 语言切换逻辑
+        function toggleLanguage() {
+            var enBlock = document.getElementById("content-en");
+            var zhBlock = document.getElementById("content-zh");
+            var btn = document.getElementById("langBtn");
+
+            if (enBlock.style.display === "none") {
+                enBlock.style.display = "block";
+                zhBlock.style.display = "none";
+                btn.innerText = "Switch to 中文";
+                localStorage.setItem("preferred_lang", "en");
+            } else {
+                enBlock.style.display = "none";
+                zhBlock.style.display = "block";
+                btn.innerText = "Switch to English";
+                localStorage.setItem("preferred_lang", "zh");
+            }
+        }
+
+        // 初始化语言偏好
         window.addEventListener("DOMContentLoaded", function() {
+            var savedLang = localStorage.getItem("preferred_lang");
+            var btn = document.getElementById("langBtn");
+            if (savedLang === "zh") {
+                document.getElementById("content-en").style.display = "none";
+                document.getElementById("content-zh").style.display = "block";
+                btn.innerText = "Switch to English";
+            } else {
+                btn.innerText = "Switch to 中文";
+            }
+
+            // TIFF 图像解码并渲染
             var canvases = document.querySelectorAll("canvas[data-tiff]");
             canvases.forEach(function(canvas) {
                 var url = canvas.getAttribute("data-tiff");
